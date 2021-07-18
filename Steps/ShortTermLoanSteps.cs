@@ -52,7 +52,7 @@ namespace AudenAssessment.Steps
             string result = shortTermLoanPage.GetSummaryText(1);
             Assert.Multiple(() =>
             {
-                Assert.AreEqual(table.Rows[0]["AmountTo Borrow"], shortTermLoanPage.GetSummaryText(1));
+                Assert.AreEqual(table.Rows[0]["Amount To Borrow"], shortTermLoanPage.GetSummaryText(1));
                 Assert.AreEqual(table.Rows[0]["Interest"], shortTermLoanPage.GetSummaryText(2));
                 Assert.AreEqual(table.Rows[0]["Repayment Total"], shortTermLoanPage.GetSummaryText(3));
                 Assert.AreEqual(table.Rows[0]["Instalment Amount"], shortTermLoanPage.GetSummaryText(4));

@@ -118,7 +118,7 @@ this.ScenarioInitialize(scenarioInfo);
    testRunner.Then("First repayment date is friday \'Friday 30 Jul 2021\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
                 TechTalk.SpecFlow.Table table1 = new TechTalk.SpecFlow.Table(new string[] {
-                            "AmountTo Borrow",
+                            "Amount To Borrow",
                             "Interest",
                             "Repayment Total",
                             "Instalment Amount"});

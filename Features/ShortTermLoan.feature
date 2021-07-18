@@ -10,8 +10,8 @@ Scenario: Test Slider Functionality
 	 And I select payment date as 31
    Then First repayment date is friday 'Friday 30 Jul 2021'
 	 And The loan breakdown is as follows:
-	 | AmountTo Borrow | Interest | Repayment Total | Instalment Amount |
-	 | £350.00         | £83.20   | £433.20         | £144.41           |
+	 | Amount To Borrow | Interest | Repayment Total | Instalment Amount |
+	 | £350.00          | £83.20   | £433.20         | £144.41           |
 	 And Slider amount is equal to loan amount
 	 And Slider minimum is '200'
 	 And Slider maximum is '500' 

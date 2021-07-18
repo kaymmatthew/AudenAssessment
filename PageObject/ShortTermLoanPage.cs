@@ -58,11 +58,12 @@ namespace AudenAssessment.PageObject
 
         public string GetSliderMaxValue()
         {
-            browser.WaitFor(2);
+            browser.WaitFor(1);
             return Slider.GetAttribute("max"); 
         }
 
         public void SelectLoanday(int day) =>  loanDate(day).Click();
+
         public string GetFirstRepaymentDate()
         {
             browser.WaitFor(1);
