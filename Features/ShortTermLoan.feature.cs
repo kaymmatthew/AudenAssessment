@@ -124,9 +124,9 @@ this.ScenarioInitialize(scenarioInfo);
                             "Instalment Amount"});
                 table1.AddRow(new string[] {
                             "£350.00",
-                            "£83.20",
-                            "£433.20",
-                            "£144.41"});
+                            "£82.02",
+                            "£432.02",
+                            "£144.01"});
 #line 12
   testRunner.And("The loan breakdown is as follows:", ((string)(null)), table1, "And ");
 #line hidden
