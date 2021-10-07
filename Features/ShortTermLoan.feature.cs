@@ -109,13 +109,16 @@ this.ScenarioInitialize(scenarioInfo);
    testRunner.And("I accept cookies", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
 #line 9
-   testRunner.When("I slide to borrow \'£350\' with offset of 2", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+   testRunner.When("I enter \'£500\' as the amount I would like to borrow", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line hidden
 #line 10
   testRunner.And("I select payment date as 31", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
 #line 11
-   testRunner.Then("First repayment date is friday \'Friday 30 Jul 2021\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+  testRunner.And("I select \'9\' as the number of months it will take me to repay my loan", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line hidden
+#line 12
+  testRunner.And("First repayment date is friday \'Friday 29 Oct 2021\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
                 TechTalk.SpecFlow.Table table1 = new TechTalk.SpecFlow.Table(new string[] {
                             "Amount To Borrow",
@@ -123,21 +126,12 @@ this.ScenarioInitialize(scenarioInfo);
                             "Repayment Total",
                             "Instalment Amount"});
                 table1.AddRow(new string[] {
-                            "£350.00",
-                            "£82.02",
-                            "£432.02",
-                            "£144.01"});
-#line 12
-  testRunner.And("The loan breakdown is as follows:", ((string)(null)), table1, "And ");
-#line hidden
-#line 15
-  testRunner.And("Slider amount is equal to loan amount", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
-#line hidden
-#line 16
-  testRunner.And("Slider minimum is \'200\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
-#line hidden
-#line 17
-  testRunner.And("Slider maximum is \'500\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+                            "£500.00",
+                            "£249.87",
+                            "£749.87",
+                            "£83.33"});
+#line 13
+ testRunner.Then("The loan breakdown is as follow:", ((string)(null)), table1, "Then ");
 #line hidden
             }
             this.ScenarioCleanup();

@@ -4,6 +4,9 @@ using NUnit.Framework;
 using System;
 using System.Threading;
 using TechTalk.SpecFlow;
+using System.Linq;
+using TechTalk.SpecFlow.Assist;
+using System.Collections.Generic;
 
 namespace AudenAssessment.Steps
 {
@@ -26,10 +29,10 @@ namespace AudenAssessment.Steps
             shortTermLoanPage.navigateToSite();
         }
 
-        [When(@"I slide to borrow '(.*)' with offset of (.*)")]
-        public void WhenISlideToBorrow(string amount,int offset)
+        [When(@"I enter '(.*)' as the amount I would like to borrow")]
+        public void WhenIEnterAsTheAmountIWouldLikeToBorrow(string amount)
         {
-            shortTermLoanPage.SetLoanAmount(amount, offset);
+            shortTermLoanPage.EntLoanAmount(amount);
         }
 
         [When(@"I select payment date as (.*)")]
@@ -38,49 +41,29 @@ namespace AudenAssessment.Steps
             shortTermLoanPage.SelectLoanday(day);
         }
 
-        [Then(@"First repayment date is friday '(.*)'")]
-        public void ThenFirstRepaymentDateIsFridayOfJul(string firstRepaymentDate)
+        [When(@"First repayment date is friday '(.*)'")]
+        public void WhenFirstRepaymentDateIsFriday(string repaymentDate)
         {
-            string paymentdateAlias = shortTermLoanPage.GetFirstRepaymentDate();
-            Assert.AreEqual(firstRepaymentDate, paymentdateAlias,
-                $"{firstRepaymentDate} not equal to {paymentdateAlias}");
+            Assert.AreEqual(repaymentDate, shortTermLoanPage.GetFirstRepaymentDate());
         }
 
-        [Then(@"The loan breakdown is as follows:")]
-        public void ThenTheLoanBreakdownIsAsFollows(Table table)
+        [When(@"I select '(.*)' as the number of months it will take me to repay my loan")]
+        public void WhenISelectAsTheNumberOfMonthsMyLoanWillBePayedIn(int month)
         {
-            string result = shortTermLoanPage.GetSummaryText(1);
+            shortTermLoanPage.SelectLoanRepaymentMonths(month);
+        }
+
+        [Then(@"The loan breakdown is as follow:")]
+        public void ThenTheLoanBreakdownIsAsFollow(Table table)
+        {
+            string result = shortTermLoanPage.GetSummaryText().FirstOrDefault().Text;
             Assert.Multiple(() =>
             {
-                Assert.AreEqual(table.Rows[0]["Amount To Borrow"], shortTermLoanPage.GetSummaryText(1));
-                Assert.AreEqual(table.Rows[0]["Interest"], shortTermLoanPage.GetSummaryText(2));
-                Assert.AreEqual(table.Rows[0]["Repayment Total"], shortTermLoanPage.GetSummaryText(3));
-                Assert.AreEqual(table.Rows[0]["Instalment Amount"], shortTermLoanPage.GetSummaryText(4));
+                Assert.AreEqual(table.Rows[0]["Amount To Borrow"], shortTermLoanPage.GetSummaryText().ElementAt(0).Text);
+                Assert.AreEqual(table.Rows[0]["Interest"], shortTermLoanPage.GetSummaryText().ElementAt(1).Text);
+                Assert.AreEqual(table.Rows[0]["Repayment Total"], shortTermLoanPage.GetSummaryText().ElementAt(2).Text);
+                Assert.AreEqual(table.Rows[0]["Instalment Amount"], shortTermLoanPage.GetSummaryText().ElementAt(3).Text);
             });
-        }
-
-        [Then(@"Slider amount is equal to loan amount")]
-        public void ThenSliderAmountIsEqualAmountToBorrow()
-        {
-            string sliderValue = shortTermLoanPage.GetloanAmountText();
-            string loanValue = shortTermLoanPage.GetSummaryText(1);
-            Assert.AreEqual(sliderValue, loanValue.Replace(".00", string.Empty));
-        }
-
-        [Then(@"Slider minimum is '(.*)'")]
-        public void ThenSliderMinimumIs(string expectedMinimumValue)
-        {
-            var actualMinValue =
-                shortTermLoanPage.GetSliderMinValue();
-                Assert.AreEqual(expectedMinimumValue, actualMinValue);
-        }
-
-        [Then(@"Slider maximum is '(.*)'")]
-        public void ThenSliderMaximumIs(string expectedMaximumValue)
-        {
-            var actualMaxValue = 
-                shortTermLoanPage.GetSliderMaxValue();
-                Assert.AreEqual(expectedMaximumValue, actualMaxValue);
         }
 
         [Given(@"I accept cookies")]
@@ -88,6 +71,5 @@ namespace AudenAssessment.Steps
         {
             shortTermLoanPage.AcceptCookies();
         }
-
     }
 }

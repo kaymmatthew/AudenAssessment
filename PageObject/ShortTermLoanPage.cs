@@ -8,7 +8,6 @@ using System.Threading;
 
 namespace AudenAssessment.PageObject
 {
-    
     public class ShortTermLoanPage
     {
         IWebDriver browser;
@@ -17,13 +16,16 @@ namespace AudenAssessment.PageObject
             this.browser = browser;
         }
 
-        private IWebElement Slider => browser.FindElement(By.Name("amount"));
+        private IWebElement enterLoanAmount => browser.FindElement(By.XPath("//input[@id='amount']"));
         private IWebElement loanDate(int day) =>
             browser.FindElement(By.XPath($"//button[@name='day'][.='{day}']"));
-        private IWebElement FirstRepaymentDate => browser.FindElement(By.XPath("(//label)[2]"));
+        private IWebElement FirstRepaymentDate => browser.FindElement(By.XPath
+            ("//span[contains(@class, 'first-repayment-date')]"));
+        private IWebElement loanRepaymentMonths(int value) => 
+            browser.FindElement(By.XPath($"//input[@name='repaymentLength']//following-sibling::label[.='{value}']"));
         private IWebElement cookiesbtn => browser.FindElement(By.XPath("//button[@id='consent_prompt_submit']"));
-        private IWebElement SummaryOfLoan(int index) => 
-            browser.FindElement(By.XPath($"(//ul/li)[{index}]//strong[@data-testid='loan-calculator-summary-amount']"));
+        private IList<IWebElement> SummaryOfLoan => 
+            browser.FindElements(By.XPath("//strong[@data-testid='loan-calculator-summary-amount']"));
         private IWebElement loanAmountValue =>
             browser.FindElement(By.XPath("//p[@data-testid='loan-amount-value']"));
 
@@ -32,44 +34,32 @@ namespace AudenAssessment.PageObject
             browser.Navigate().GoToUrl(SettingsReader.audenUrl);
         }
 
-        public void SetLoanAmount(string amount,int offset)
+        public void EntLoanAmount(string amount)
         {
-            browser.WaitFor(1);
-            try
-            {
-                if (loanAmountValue.Text != amount)
-                {
-                    Actions SliderAction = new Actions(browser);
-                    SliderAction.DragAndDropToOffset(Slider, offset, 0).Perform();
-                    browser.WaitFor(1);
-                }
-            }
-            catch (Exception)
-            {
-                throw new InvalidOperationException();
-            }
+            enterLoanAmount.SendKeys(amount);
         }
 
         public string GetSliderMinValue()
         {
             browser.WaitFor(1);
-            return Slider.GetAttribute("min"); 
+            return enterLoanAmount.GetAttribute("min");
         }
 
         public string GetSliderMaxValue()
         {
             browser.WaitFor(1);
-            return Slider.GetAttribute("max"); 
+            return enterLoanAmount.GetAttribute("max");
         }
 
-        public void SelectLoanday(int day) =>  loanDate(day).Click();
+        public void SelectLoanday(int day) => loanDate(day).Click();
 
         public string GetFirstRepaymentDate()
         {
             browser.WaitFor(1);
             return FirstRepaymentDate.Text;
         }
-            
+
+        public void SelectLoanRepaymentMonths(int value) => loanRepaymentMonths(value).Click();
 
         public void AcceptCookies()
         {
@@ -88,7 +78,7 @@ namespace AudenAssessment.PageObject
             }
         }
 
-        public string GetSummaryText(int index) => SummaryOfLoan(index).Text;
+        public IList<IWebElement> GetSummaryText() => SummaryOfLoan.ToList();
         public string GetloanAmountText() => loanAmountValue.Text;
     }
 }
